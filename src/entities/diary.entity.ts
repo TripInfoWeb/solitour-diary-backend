@@ -18,6 +18,9 @@ export class Diary {
   @PrimaryGeneratedColumn({ name: 'id' })
   id?: number;
 
+  /**
+   * 일기 작성자 id
+   */
   @ManyToOne(() => User, (user) => user.id)
   @JoinColumn({ name: 'user_id' })
   userId: number;

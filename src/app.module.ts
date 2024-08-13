@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Diary } from './entities/diary.entity';
 import { User } from './entities/user.entity';
+import { DiaryDay } from './entities/diary-day.entity';
 
 // 모듈 데코레이터
 @Module({
@@ -24,7 +25,7 @@ import { User } from './entities/user.entity';
       username: process.env.DB_USERNAME, // 데이터베이스 사용자 이름
       password: process.env.DB_PASSWORD, // 데이터베이스 비밀번호
       database: process.env.DB_DATABASE, // 사용하고자 하는 데이터베이스 이름
-      entities: [Diary, User], // 사용하고자 하는 entity 또는 entity schema 목록
+      entities: [User, Diary, DiaryDay], // 사용하고자 하는 entity 또는 entity schema 목록
       synchronize: true,
       logging: true,
       dropSchema: false,
