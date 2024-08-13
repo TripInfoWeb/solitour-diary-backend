@@ -3,9 +3,12 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { User } from './user.entity';
 
 @Entity()
 export class Diary {
@@ -14,6 +17,10 @@ export class Diary {
    */
   @PrimaryGeneratedColumn({ name: 'id' })
   id?: number;
+
+  @ManyToOne(() => User, (user) => user.id)
+  @JoinColumn({ name: 'user_id' })
+  userId: number;
 
   /**
    * 여행일기 제목
