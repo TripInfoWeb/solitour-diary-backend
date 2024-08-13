@@ -8,6 +8,8 @@ import { Diary } from './entities/diary.entity';
 import { User } from './entities/user.entity';
 import { DiaryDay } from './entities/diary-day.entity';
 import { ImageModule } from './modules/image/image.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 // 모듈 데코레이터
 @Module({
@@ -30,6 +32,11 @@ import { ImageModule } from './modules/image/image.module';
       synchronize: true,
       logging: true,
       dropSchema: false,
+    }),
+    // 초기화 함수 실행
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'uploads'), // 실제 파일이 있는 디렉토리 경로
+      serveRoot: '/uploads/images/diary', // url 뒤에 붙을 경로를 지정
     }),
     DiaryModule,
     ImageModule,
