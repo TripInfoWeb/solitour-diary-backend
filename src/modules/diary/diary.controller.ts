@@ -1,4 +1,11 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  HttpCode,
+  Param,
+  Post,
+} from '@nestjs/common';
 import { DiaryService } from './diary.service';
 import { CreateDiaryDto } from './diary.dto';
 
@@ -11,8 +18,15 @@ export class DiaryController {
    * @param diaryDto 일기 데이터
    * @returns 등록된 일기 id 값
    */
-  @Post()
+  @Post('/create')
   async createDiary(@Body() diaryDto: CreateDiaryDto) {
     return await this.diaryService.createDiary(diaryDto);
+  }
+
+  @Delete('delete/:id')
+  @HttpCode(204) // No Content
+  async deleteDiary(@Param('id') id: number) {
+    await this.diaryService.deleteDiary(id);
+    return { message: 'No Content' };
   }
 }

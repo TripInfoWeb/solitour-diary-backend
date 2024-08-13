@@ -17,6 +17,7 @@ export class DiaryService {
   /**
    * 일기 작성
    * @param diaryDto 일기 데이터
+   * @returns 등록된 일기 id 값
    */
   async createDiary(diaryDto: CreateDiaryDto) {
     // 일기 정보 등록
@@ -72,8 +73,10 @@ export class DiaryService {
 
   /**
    * 일기 삭제
+   * @param diaryId
    */
-  deleteDiary() {
-    // TODO
+  async deleteDiary(diaryId: number) {
+    await this.diaryDayRepository.delete({ diaryId: diaryId });
+    await this.diaryRepository.delete({ id: diaryId });
   }
 }
