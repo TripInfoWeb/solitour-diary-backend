@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   HttpCode,
   Param,
   Post,
@@ -23,7 +24,36 @@ export class DiaryController {
     return await this.diaryService.createDiary(diaryDto);
   }
 
-  @Delete('delete/:id')
+  /**
+   * 일기 상세 조회
+   * @param id 일기 id 값
+   * @returns 일기 데이터
+   */
+  @Get('/:id')
+  async getDiary(@Param('id') id: number) {
+    // TODO: 접근 권한
+
+    return await this.diaryService.getDiary(id);
+  }
+
+  /*
+  @Get()
+  async getDiaryList() {
+    // TODO: 접근 권한
+  }
+
+  @Put('/:id')
+  async updateDiary(@Param('id') id: number) {
+
+  }
+  */
+
+  /**
+   * 일기 삭제
+   * @param id 일기 id 값
+   * @returns No Content
+   */
+  @Delete('/delete/:id')
   @HttpCode(204) // No Content
   async deleteDiary(@Param('id') id: number) {
     await this.diaryService.deleteDiary(id);
