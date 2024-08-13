@@ -7,6 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Diary } from './entities/diary.entity';
 import { User } from './entities/user.entity';
 import { DiaryDay } from './entities/diary-day.entity';
+import { ImageModule } from './modules/image/image.module';
 
 // 모듈 데코레이터
 @Module({
@@ -31,6 +32,7 @@ import { DiaryDay } from './entities/diary-day.entity';
       dropSchema: false,
     }),
     DiaryModule,
+    ImageModule,
   ],
   controllers: [AppController],
   providers: [AppService],
