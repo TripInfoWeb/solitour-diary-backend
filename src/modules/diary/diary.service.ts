@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DiaryDay } from 'src/entities/diary-day.entity';
 import { User } from 'src/entities/user.entity';
+import * as sanitizeHtml from 'sanitize-html';
 
 @Injectable() // 의존성 주입을 위한 데코레이터
 export class DiaryService {
@@ -107,7 +108,7 @@ export class DiaryService {
         map.set(diaryDay.diary.id, {
           diaryId: diaryDay.diary.id,
           image:
-            'file:///C:/Users/user/%EB%AC%B8%EC%84%9C/vscode/solitour-diary-backend/uploads/02fe78e4-cb92-4ccf-958a-137682e93d2b.jpg',
+            'C:/Users/user/문서/vscode/solitour-diary-backend/uploads/02fe78e4-cb92-4ccf-958a-137682e93d2b.jpg',
           title: diaryDay.diary.title,
           startDate: diaryDay.diary.startDate,
           endDate: diaryDay.diary.endDate,
@@ -119,7 +120,7 @@ export class DiaryService {
 
       const diary = map.get(diaryDay.diary.id);
       diary.moodLevels.push(diaryDay.moodLevel);
-      diary.contents.push(diaryDay.content);
+      diary.contents.push(sanitizeHtml(diaryDay.content, { allowedTags: [] }));
     });
 
     return [...map.values()];
