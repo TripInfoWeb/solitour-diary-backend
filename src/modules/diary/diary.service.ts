@@ -89,7 +89,7 @@ export class DiaryService {
       relations: ['diary'],
     });
 
-    const map = new Map<
+    const data = new Map<
       number,
       {
         diaryId: number;
@@ -98,14 +98,13 @@ export class DiaryService {
         startDate: Date;
         endDate: Date;
         address: string;
-        moodLevels: number[];
-        contents: string[];
+        diaryDays: { moodLevel: number; content: string }[];
       }
     >();
 
     diaryDayList.forEach((diaryDay) => {
-      if (!map.has(diaryDay.diary.id)) {
-        map.set(diaryDay.diary.id, {
+      if (!data.has(diaryDay.diary.id)) {
+        data.set(diaryDay.diary.id, {
           diaryId: diaryDay.diary.id,
           image:
             'C:/Users/user/문서/vscode/solitour-diary-backend/uploads/02fe78e4-cb92-4ccf-958a-137682e93d2b.jpg',
@@ -113,17 +112,17 @@ export class DiaryService {
           startDate: diaryDay.diary.startDate,
           endDate: diaryDay.diary.endDate,
           address: diaryDay.diary.address,
-          moodLevels: Array<number>(),
-          contents: Array<string>(),
+          diaryDays: [],
         });
       }
 
-      const diary = map.get(diaryDay.diary.id);
-      diary.moodLevels.push(diaryDay.moodLevel);
-      diary.contents.push(sanitizeHtml(diaryDay.content, { allowedTags: [] }));
+      data.get(diaryDay.diary.id).diaryDays.push({
+        moodLevel: diaryDay.moodLevel,
+        content: sanitizeHtml(diaryDay.content, { allowedTags: [] }),
+      });
     });
 
-    return [...map.values()];
+    return [...data.values()];
   }
 
   /**
@@ -135,7 +134,7 @@ export class DiaryService {
 
   /**
    * 일기 삭제
-   * @param diaryId
+   * @param diaryId 일기 id 값
    */
   async deleteDiary(diaryId: number) {
     await this.diaryDayRepository.delete({ diary: { id: diaryId } });
