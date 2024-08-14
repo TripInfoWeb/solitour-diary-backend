@@ -107,7 +107,7 @@ export class DiaryService {
         data.set(diaryDay.diary.id, {
           diaryId: diaryDay.diary.id,
           image:
-            'C:/Users/user/문서/vscode/solitour-diary-backend/uploads/02fe78e4-cb92-4ccf-958a-137682e93d2b.jpg',
+            'http://localhost:4000/uploads/images/diary/02fe78e4-cb92-4ccf-958a-137682e93d2b.jpg',
           title: diaryDay.diary.title,
           startDate: diaryDay.diary.startDate,
           endDate: diaryDay.diary.endDate,
