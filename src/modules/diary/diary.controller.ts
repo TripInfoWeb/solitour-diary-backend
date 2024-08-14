@@ -40,6 +40,8 @@ export class DiaryController {
   @Get()
   async getDiaryList() {
     // TODO: 접근 권한
+    // TODO: 유저 id 값 구하기
+    return await this.diaryService.getDiaryList(1);
   }
 
   /*

@@ -4,11 +4,13 @@ import { Diary } from 'src/entities/diary.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DiaryDay } from 'src/entities/diary-day.entity';
+import { User } from 'src/entities/user.entity';
 
 @Injectable() // 의존성 주입을 위한 데코레이터
 export class DiaryService {
   // Repository 주입
   constructor(
+    @InjectRepository(User) private userRepository: Repository<User>,
     @InjectRepository(Diary) private diaryRepository: Repository<Diary>,
     @InjectRepository(DiaryDay)
     private diaryDayRepository: Repository<DiaryDay>,
@@ -20,9 +22,13 @@ export class DiaryService {
    * @returns 등록된 일기 id 값
    */
   async createDiary(diaryDto: CreateDiaryDto) {
+    const user = await this.userRepository.findOne({
+      where: { id: diaryDto.userId },
+    });
+
     // 일기 정보 등록
     const diary = new Diary();
-    diary.userId = diaryDto.userId;
+    diary.user = user;
     diary.title = diaryDto.title;
     diary.startDate = diaryDto.startDate;
     diary.endDate = diaryDto.endDate;
@@ -78,8 +84,10 @@ export class DiaryService {
    */
   async getDiaryList(userId: number) {
     const diaryList = await this.diaryRepository.find({
-      where: { userId: userId },
+      where: { user: { id: userId } },
     });
+
+    return diaryList;
   }
 
   /**

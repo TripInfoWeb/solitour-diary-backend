@@ -23,7 +23,7 @@ export class Diary {
    */
   @ManyToOne(() => User, (user) => user.id)
   @JoinColumn({ name: 'user_id' })
-  userId: number;
+  user: User;
 
   /**
    * 여행일기 제목
