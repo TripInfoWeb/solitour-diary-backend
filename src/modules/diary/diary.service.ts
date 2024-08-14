@@ -69,6 +69,7 @@ export class DiaryService {
     });
 
     return {
+      diaryId: diaryId,
       title: diary.title,
       startDate: diary.startDate,
       endDate: diary.endDate,
