@@ -30,7 +30,7 @@ import { join } from 'path';
       database: process.env.DB_DATABASE, // 사용하고자 하는 데이터베이스 이름
       entities: [User, Diary, DiaryDay], // 사용하고자 하는 entity 또는 entity schema 목록
       synchronize: true,
-      logging: true,
+      logging: false,
       dropSchema: false,
     }),
     // 초기화 함수 실행

@@ -1,4 +1,11 @@
-import { IsArray, IsInt, IsPositive, IsString, Length } from 'class-validator';
+import {
+  IsArray,
+  IsDateString,
+  IsInt,
+  IsPositive,
+  IsString,
+  Length,
+} from 'class-validator';
 
 /**
  * 여행일기 등록 시 사용할 DTO
@@ -12,8 +19,10 @@ export class CreateDiaryDto {
   @Length(1)
   title: string;
 
+  @IsDateString()
   startDate: Date;
 
+  @IsDateString()
   endDate: Date;
 
   @IsString()

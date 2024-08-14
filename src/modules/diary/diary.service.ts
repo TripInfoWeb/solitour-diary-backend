@@ -32,7 +32,7 @@ export class DiaryService {
     // 일기 day 정보 배열 생성
     const diaryDays = diaryDto.diaryDays.map((value, index) => {
       const diaryDay = new DiaryDay();
-      diaryDay.diaryId = newDiary.id;
+      diaryDay.diary = newDiary;
       diaryDay.day = index + 1;
       diaryDay.moodLevel = value.moodLevel;
       diaryDay.content = value.content;
@@ -56,7 +56,7 @@ export class DiaryService {
   async getDiary(id: number) {
     const diary = await this.diaryRepository.findOneOrFail({ where: { id } });
     const diaryDays = await this.diaryDayRepository.find({
-      where: { diaryId: diary.id },
+      where: { diary: { id: diary.id } },
     });
 
     return {
@@ -90,7 +90,7 @@ export class DiaryService {
    * @param diaryId
    */
   async deleteDiary(diaryId: number) {
-    await this.diaryDayRepository.delete({ diaryId: diaryId });
+    await this.diaryDayRepository.delete({ diary: { id: diaryId } });
     await this.diaryRepository.delete({ id: diaryId });
   }
 }

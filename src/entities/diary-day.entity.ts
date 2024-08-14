@@ -20,7 +20,7 @@ export class DiaryDay {
    */
   @ManyToOne(() => Diary, (diary) => diary.id)
   @JoinColumn({ name: 'diary_id' })
-  diaryId: number;
+  diary: Diary;
 
   /**
    * N일차
