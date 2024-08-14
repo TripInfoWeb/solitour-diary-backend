@@ -21,7 +21,8 @@ export class DiaryController {
    */
   @Post('/create')
   async createDiary(@Body() diaryDto: CreateDiaryDto) {
-    return await this.diaryService.createDiary(diaryDto);
+    const id = await this.diaryService.createDiary(diaryDto);
+    return { id: id };
   }
 
   /**
@@ -36,12 +37,12 @@ export class DiaryController {
     return await this.diaryService.getDiary(id);
   }
 
-  /*
   @Get()
   async getDiaryList() {
     // TODO: 접근 권한
   }
 
+  /*
   @Put('/:id')
   async updateDiary(@Param('id') id: number) {
 

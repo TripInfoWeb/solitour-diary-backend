@@ -54,7 +54,21 @@ export class DiaryService {
    * 일기 상세 조회
    */
   async getDiary(id: number) {
-    return await this.diaryRepository.findOneOrFail({ where: { id } });
+    const diary = await this.diaryRepository.findOneOrFail({ where: { id } });
+    const diaryDays = await this.diaryDayRepository.find({
+      where: { diaryId: diary.id },
+    });
+
+    return {
+      title: diary.title,
+      startDate: diary.startDate,
+      endDate: diary.endDate,
+      address: diary.address,
+      diaryDays: Array.from({ length: diaryDays.length }, (_, index) => ({
+        moodLevel: diaryDays[index].moodLevel,
+        content: diaryDays[index].content,
+      })),
+    };
   }
 
   /**
