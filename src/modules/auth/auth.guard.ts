@@ -1,7 +1,6 @@
-// Injectable이 있으므로 프로바이더에 해당
-
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 
+// Injectable이 있으므로 프로바이더에 해당
 // CanActivate 인터페이스 구현
 @Injectable()
 export class AuthGuard implements CanActivate {

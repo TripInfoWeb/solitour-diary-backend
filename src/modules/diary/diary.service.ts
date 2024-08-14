@@ -33,7 +33,9 @@ export class DiaryService {
     diary.title = diaryDto.title;
     diary.startDate = diaryDto.startDate;
     diary.endDate = diaryDto.endDate;
+    diary.placeName = diaryDto.placeName;
     diary.address = diaryDto.address;
+    diary.image = diaryDto.image;
     const newDiary = await this.diaryRepository.save(diary);
 
     // 일기 day 정보 배열 생성
@@ -73,7 +75,9 @@ export class DiaryService {
       title: diary.title,
       startDate: diary.startDate,
       endDate: diary.endDate,
+      placeName: diary.placeName,
       address: diary.address,
+      image: diary.image,
       diaryDays: Array.from({ length: diaryDays.length }, (_, index) => ({
         moodLevel: diaryDays[index].moodLevel,
         content: diaryDays[index].content,
@@ -107,8 +111,7 @@ export class DiaryService {
       if (!data.has(diaryDay.diary.id)) {
         data.set(diaryDay.diary.id, {
           diaryId: diaryDay.diary.id,
-          image:
-            'http://localhost:4000/uploads/images/diary/02fe78e4-cb92-4ccf-958a-137682e93d2b.jpg',
+          image: diaryDay.diary.image,
           title: diaryDay.diary.title,
           startDate: diaryDay.diary.startDate,
           endDate: diaryDay.diary.endDate,
@@ -137,6 +140,7 @@ export class DiaryService {
         title: diaryDto.title,
         startDate: diaryDto.startDate,
         endDate: diaryDto.endDate,
+        placeName: diaryDto.placeName,
         address: diaryDto.address,
       },
     );

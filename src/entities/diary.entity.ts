@@ -44,12 +44,26 @@ export class Diary {
   endDate: Date;
 
   /**
+   * 장소명
+   *
+   * Ex. 테라로사 포스코센터점
+   */
+  @Column('varchar', { name: 'place_name' })
+  placeName: string;
+
+  /**
    * 주소명
    *
    * Ex. 서울 강남구
    */
   @Column('varchar', { name: 'address' })
   address: string;
+
+  /**
+   * 대표 이미지
+   */
+  @Column('varchar', { name: 'image' })
+  image: string;
 
   /**
    * 생성 날짜

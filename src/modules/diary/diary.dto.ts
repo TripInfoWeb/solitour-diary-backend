@@ -27,7 +27,15 @@ export class CreateDiaryDto {
 
   @IsString()
   @Length(1)
+  placeName: string;
+
+  @IsString()
+  @Length(1)
   address: string;
+
+  @IsString()
+  @Length(1)
+  image: string;
 
   @IsArray()
   diaryDays: {
@@ -49,6 +57,10 @@ export class UpdateDiaryDto {
 
   @IsDateString()
   endDate: Date;
+
+  @IsString()
+  @Length(1)
+  placeName: string;
 
   @IsString()
   @Length(1)
