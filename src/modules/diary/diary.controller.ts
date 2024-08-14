@@ -60,11 +60,10 @@ export class DiaryController {
    * @returns No Content
    */
   @UseGuards(AuthGuard)
-  @Put('/:id')
-  @HttpCode(204) // No Content
+  @Put('/update/:id')
   async updateDiary(@Param('id') id: number, @Body() diaryDto: UpdateDiaryDto) {
-    await this.diaryService.updateDiary(id, diaryDto);
-    return { message: 'No Content' };
+    const diaryId = await this.diaryService.updateDiary(id, diaryDto);
+    return { id: diaryId };
   }
 
   /**
