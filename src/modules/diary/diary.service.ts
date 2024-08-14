@@ -53,8 +53,10 @@ export class DiaryService {
   /**
    * 일기 상세 조회
    */
-  async getDiary(id: number) {
-    const diary = await this.diaryRepository.findOneOrFail({ where: { id } });
+  async getDiary(diaryId: number) {
+    const diary = await this.diaryRepository.findOneOrFail({
+      where: { id: diaryId },
+    });
     const diaryDays = await this.diaryDayRepository.find({
       where: { diary: { id: diary.id } },
     });
@@ -74,8 +76,10 @@ export class DiaryService {
   /**
    * 일기 목록 조회
    */
-  getDiaryList() {
-    // TODO
+  async getDiaryList(userId: number) {
+    const diaryList = await this.diaryRepository.find({
+      where: { userId: userId },
+    });
   }
 
   /**
