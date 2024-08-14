@@ -83,11 +83,46 @@ export class DiaryService {
    * 일기 목록 조회
    */
   async getDiaryList(userId: number) {
-    const diaryList = await this.diaryRepository.find({
-      where: { user: { id: userId } },
+    const diaryDayList = await this.diaryDayRepository.find({
+      where: { diary: { user: { id: userId } } },
+      relations: ['diary'],
     });
 
-    return diaryList;
+    const map = new Map<
+      number,
+      {
+        diaryId: number;
+        image: string;
+        title: string;
+        startDate: Date;
+        endDate: Date;
+        address: string;
+        moodLevels: number[];
+        contents: string[];
+      }
+    >();
+
+    diaryDayList.forEach((diaryDay) => {
+      if (!map.has(diaryDay.diary.id)) {
+        map.set(diaryDay.diary.id, {
+          diaryId: diaryDay.diary.id,
+          image:
+            'file:///C:/Users/user/%EB%AC%B8%EC%84%9C/vscode/solitour-diary-backend/uploads/02fe78e4-cb92-4ccf-958a-137682e93d2b.jpg',
+          title: diaryDay.diary.title,
+          startDate: diaryDay.diary.startDate,
+          endDate: diaryDay.diary.endDate,
+          address: diaryDay.diary.address,
+          moodLevels: Array<number>(),
+          contents: Array<string>(),
+        });
+      }
+
+      const diary = map.get(diaryDay.diary.id);
+      diary.moodLevels.push(diaryDay.moodLevel);
+      diary.contents.push(diaryDay.content);
+    });
+
+    return [...map.values()];
   }
 
   /**
