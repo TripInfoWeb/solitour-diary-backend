@@ -7,9 +7,11 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { DiaryService } from './diary.service';
 import { CreateDiaryDto, UpdateDiaryDto } from './diary.dto';
+import { AuthGuard } from '../auth/auth.guard';
 
 @Controller('api/diary')
 export class DiaryController {
@@ -20,6 +22,7 @@ export class DiaryController {
    * @param diaryDto 일기 데이터
    * @returns 등록된 일기 id 값
    */
+  @UseGuards(AuthGuard)
   @Post('/create')
   async createDiary(@Body() diaryDto: CreateDiaryDto) {
     const id = await this.diaryService.createDiary(diaryDto);
@@ -31,6 +34,7 @@ export class DiaryController {
    * @param id 일기 id 값
    * @returns 일기 데이터
    */
+  @UseGuards(AuthGuard)
   @Get('/:id')
   async getDiary(@Param('id') id: number) {
     // TODO: 접근 권한
@@ -42,6 +46,7 @@ export class DiaryController {
    * 일기 목록 조회
    * @returns 일기 목록
    */
+  @UseGuards(AuthGuard)
   @Get()
   async getDiaryList() {
     // TODO: 접근 권한
@@ -54,6 +59,7 @@ export class DiaryController {
    * @param id 일기 id 값
    * @returns No Content
    */
+  @UseGuards(AuthGuard)
   @Put('/:id')
   @HttpCode(204) // No Content
   async updateDiary(@Param('id') id: number, @Body() diaryDto: UpdateDiaryDto) {
@@ -66,6 +72,7 @@ export class DiaryController {
    * @param id 일기 id 값
    * @returns No Content
    */
+  @UseGuards(AuthGuard)
   @Delete('/delete/:id')
   @HttpCode(204) // No Content
   async deleteDiary(@Param('id') id: number) {
