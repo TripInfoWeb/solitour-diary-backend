@@ -35,3 +35,28 @@ export class CreateDiaryDto {
     content: string;
   }[];
 }
+
+/**
+ * 여행일기 수정 시 사용할 DTO
+ */
+export class UpdateDiaryDto {
+  @IsString()
+  @Length(1)
+  title: string;
+
+  @IsDateString()
+  startDate: Date;
+
+  @IsDateString()
+  endDate: Date;
+
+  @IsString()
+  @Length(1)
+  address: string;
+
+  @IsArray()
+  diaryDays: {
+    moodLevel: number;
+    content: string;
+  }[];
+}

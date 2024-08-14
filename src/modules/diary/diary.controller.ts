@@ -6,9 +6,10 @@ import {
   HttpCode,
   Param,
   Post,
+  Put,
 } from '@nestjs/common';
 import { DiaryService } from './diary.service';
-import { CreateDiaryDto } from './diary.dto';
+import { CreateDiaryDto, UpdateDiaryDto } from './diary.dto';
 
 @Controller('api/diary')
 export class DiaryController {
@@ -37,6 +38,10 @@ export class DiaryController {
     return await this.diaryService.getDiary(id);
   }
 
+  /**
+   * 일기 목록 조회
+   * @returns 일기 목록
+   */
   @Get()
   async getDiaryList() {
     // TODO: 접근 권한
@@ -44,12 +49,17 @@ export class DiaryController {
     return await this.diaryService.getDiaryList(1);
   }
 
-  /*
+  /**
+   * 일기 수정
+   * @param id 일기 id 값
+   * @returns No Content
+   */
   @Put('/:id')
-  async updateDiary(@Param('id') id: number) {
-
+  @HttpCode(204) // No Content
+  async updateDiary(@Param('id') id: number, @Body() diaryDto: UpdateDiaryDto) {
+    await this.diaryService.updateDiary(id, diaryDto);
+    return { message: 'No Content' };
   }
-  */
 
   /**
    * 일기 삭제

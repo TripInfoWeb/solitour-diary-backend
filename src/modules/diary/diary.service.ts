@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateDiaryDto } from './diary.dto';
+import { CreateDiaryDto, UpdateDiaryDto } from './diary.dto';
 import { Diary } from 'src/entities/diary.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -129,8 +129,44 @@ export class DiaryService {
   /**
    * 일기 수정
    */
-  updateDiary() {
-    // TODO
+  async updateDiary(diaryId: number, diaryDto: UpdateDiaryDto) {
+    // 일기 정보 수정
+    await this.diaryRepository.update(
+      { id: diaryId },
+      {
+        title: diaryDto.title,
+        startDate: diaryDto.startDate,
+        endDate: diaryDto.endDate,
+        address: diaryDto.address,
+      },
+    );
+
+    // 기존 일기 day 정보 삭제
+    await this.diaryDayRepository.delete({ diary: { id: diaryId } });
+
+    const diary = await this.diaryRepository.findOneOrFail({
+      where: { id: diaryId },
+    });
+
+    // 새로운 일기 day 정보 생성
+    const diaryDays = diaryDto.diaryDays.map((value, index) => {
+      const diaryDay = new DiaryDay();
+      diaryDay.diary = diary;
+      diaryDay.day = index + 1;
+      diaryDay.moodLevel = value.moodLevel;
+      diaryDay.content = value.content;
+      return diaryDay;
+    });
+
+    // bulk insert
+    await this.diaryDayRepository
+      .createQueryBuilder()
+      .insert()
+      .into(DiaryDay)
+      .values(diaryDays)
+      .execute();
+
+    return diaryId;
   }
 
   /**
